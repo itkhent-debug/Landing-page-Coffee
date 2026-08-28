@@ -1,0 +1,212 @@
+{
+  "name": "Cafe Brewm — First Pour Signup",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "coffee-signup",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "name": "Signup Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [400, 400],
+      "webhookId": "coffee-signup"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            { "id": "1", "name": "email", "type": "string", "value": "={{ $json.body.email }}" },
+            { "id": "2", "name": "source", "type": "string", "value": "={{ $json.body.source }}" }
+          ]
+        }
+      },
+      "name": "Extract Email",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3,
+      "position": [620, 400]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true },
+          "conditions": [
+            {
+              "id": "1",
+              "leftValue": "={{ $json.email }}",
+              "rightValue": "^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$",
+              "operator": { "type": "string", "operation": "matchesRegex" }
+            }
+          ]
+        }
+      },
+      "name": "Valid Email?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [840, 400]
+    },
+    {
+      "parameters": {
+        "operation": "lookup",
+        "documentId": { "mode": "id", "custom": "REPLACE_WITH_GOOGLE_SHEET_DOC_ID" },
+        "sheetName": { "mode": "name", "value": "Signups" },
+        "lookupColumn": "email",
+        "lookupValue": "={{ $json.email }}"
+      },
+      "name": "Lookup User",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [1060, 400],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REPLACE_GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      },
+      "settings": { "continueOnFail": true }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true },
+          "conditions": [
+            {
+              "id": "1",
+              "leftValue": "={{ $json.email }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "isNotEmpty" }
+            }
+          ]
+        }
+      },
+      "name": "Already Registered?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [1280, 400]
+    },
+    {
+      "parameters": {
+        "jsCode": "const code = 'BREWM-' + Math.random().toString(36).slice(2, 8).toUpperCase();\nreturn [{ json: { email: $json.email, source: $json.source, voucher: code } }];"
+      },
+      "name": "Generate Voucher",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1500, 300]
+    },
+    {
+      "parameters": {
+        "fromEmail": "hello@cafebrewm.example",
+        "fromName": "Cafe Brewm",
+        "toEmail": "={{ $json.email }}",
+        "subject": "Your free coffee voucher",
+        "emailFormat": "html",
+        "html": "<p>Hi there,</p><p>Thanks for joining Cafe Brewm. Here is your <b>free coffee voucher</b>: <code>{{ $json.voucher }}</code></p><p>Show this code at the counter on your next ride in. You're also on the list for our monthly roast drops.</p><p>See you on the road,<br>Cafe Brewm</p>",
+        "options": {}
+      },
+      "name": "Send Voucher Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2,
+      "position": [1720, 300],
+      "credentials": {
+        "smtp": {
+          "id": "ImV9PWEVFQu8H9V1",
+          "name": "SMTP account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": { "mode": "id", "custom": "REPLACE_WITH_GOOGLE_SHEET_DOC_ID" },
+        "sheetName": { "mode": "name", "value": "Signups" },
+        "columns": {
+          "mappingMode": "manual",
+          "value": {
+            "email": "={{ $json.email }}",
+            "voucher": "={{ $json.voucher }}",
+            "date": "={{ $now.format('yyyy-MM-dd') }}"
+          }
+        }
+      },
+      "name": "Save Signup",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [1940, 300],
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "REPLACE_GOOGLE_SHEETS_CREDENTIAL_ID",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "statusCode": 200,
+        "responseBody": "{\"ok\":true}",
+        "options": { "responseHeaders": { "entries": [ { "name": "Content-Type", "value": "application/json" } ] } }
+      },
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [2160, 300]
+    },
+    {
+      "parameters": {
+        "statusCode": 200,
+        "responseBody": "{\"ok\":true,\"status\":\"already\"}",
+        "options": { "responseHeaders": { "entries": [ { "name": "Content-Type", "value": "application/json" } ] } }
+      },
+      "name": "Respond Already Claimed",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1500, 520]
+    },
+    {
+      "parameters": {
+        "statusCode": 400,
+        "responseBody": "{\"ok\":false,\"error\":\"invalid email\"}",
+        "options": { "responseHeaders": { "entries": [ { "name": "Content-Type", "value": "application/json" } ] } }
+      },
+      "name": "Respond Invalid",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [1060, 600]
+    }
+  ],
+  "connections": {
+    "Signup Webhook": {
+      "main": [ [ { "node": "Extract Email", "type": "main", "index": 0 } ] ]
+    },
+    "Extract Email": {
+      "main": [ [ { "node": "Valid Email?", "type": "main", "index": 0 } ] ]
+    },
+    "Valid Email?": {
+      "main": [
+        [ { "node": "Lookup User", "type": "main", "index": 0 } ],
+        [ { "node": "Respond Invalid", "type": "main", "index": 0 } ]
+      ]
+    },
+    "Lookup User": {
+      "main": [ [ { "node": "Already Registered?", "type": "main", "index": 0 } ] ]
+    },
+    "Already Registered?": {
+      "main": [
+        [ { "node": "Respond Already Claimed", "type": "main", "index": 0 } ],
+        [ { "node": "Generate Voucher", "type": "main", "index": 0 } ]
+      ]
+    },
+    "Generate Voucher": {
+      "main": [ [ { "node": "Send Voucher Email", "type": "main", "index": 0 } ] ]
+    },
+    "Send Voucher Email": {
+      "main": [ [ { "node": "Save Signup", "type": "main", "index": 0 } ] ]
+    },
+    "Save Signup": {
+      "main": [ [ { "node": "Respond OK", "type": "main", "index": 0 } ] ]
+    }
+  },
+  "pinData": {},
+  "settings": { "executionOrder": "v1" }
+}
