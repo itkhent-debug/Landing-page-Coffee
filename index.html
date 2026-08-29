@@ -696,6 +696,47 @@
   .signup-msg.ok{ color: var(--ember); }
   .signup-msg.err{ color: #ff9b9b; }
 
+  .mug-loader{
+    display:none; flex-direction:column; align-items:center; gap:0.6rem;
+    margin-top: 1.2rem;
+  }
+  .mug-loader.active{ display:flex; }
+  .mug-loader-label{
+    font-family: var(--font-mono); font-size:0.78rem; letter-spacing:0.04em; color: var(--taupe);
+  }
+  .mug{ position:relative; width:58px; height:52px; }
+  .mug-body{
+    position:absolute; left:0; right:10px; bottom:0; top:8px;
+    border:3px solid var(--brass); border-top:none;
+    border-radius: 0 0 22px 22px;
+    overflow:hidden;
+    background: rgba(255,255,255,0.04);
+  }
+  .mug-body::after{
+    content:''; position:absolute; top:8px; right:-15px; width:14px; height:20px;
+    border:3px solid var(--brass); border-left:none; border-radius:0 10px 10px 0;
+  }
+  .mug-fill{
+    position:absolute; left:0; right:0; bottom:0; height:0%;
+    background: linear-gradient(180deg, var(--ember), #7a3b12);
+    transition: height 5s linear;
+  }
+  .mug-loader.filling .mug-fill{ height:100%; }
+  .mug-steam{
+    position:absolute; top:-10px; width:2px; height:12px; border-radius:2px;
+    background: rgba(255,255,255,0.35);
+    animation: mugSteam 1.6s ease-in-out infinite;
+    opacity:0;
+  }
+  .mug-steam.s1{ left:14px; animation-delay:0s; }
+  .mug-steam.s2{ left:24px; animation-delay:0.4s; }
+  .mug-steam.s3{ left:34px; animation-delay:0.8s; }
+  @keyframes mugSteam{
+    0%{ transform: translateY(0) scaleY(0.8); opacity:0; }
+    30%{ opacity:0.6; }
+    100%{ transform: translateY(-14px) scaleY(1.2); opacity:0; }
+  }
+
   /* ============ RESPONSIVE ============ */
   @media (max-width: 900px){
     .nav-links{ display:none; }
@@ -967,6 +1008,17 @@
         <button type="submit" class="btn btn-primary">Get my free coffee</button>
       </form>
       <p class="signup-msg" id="signupMsg" role="status" aria-live="polite"></p>
+      <div class="mug-loader" id="mugLoader" aria-hidden="true">
+        <div class="mug">
+          <span class="mug-steam s1"></span>
+          <span class="mug-steam s2"></span>
+          <span class="mug-steam s3"></span>
+          <div class="mug-body">
+            <div class="mug-fill" id="mugFill"></div>
+          </div>
+        </div>
+        <p class="mug-loader-label">Brewing your voucher…</p>
+      </div>
     </div>
   </section>
 
@@ -1037,6 +1089,9 @@
   const signupForm = document.getElementById('signupForm');
   const signupEmail = document.getElementById('signupEmail');
   const signupMsg = document.getElementById('signupMsg');
+  const mugLoader = document.getElementById('mugLoader');
+  const signupBtn = signupForm ? signupForm.querySelector('button[type="submit"]') : null;
+  const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
   if (signupForm) {
     signupForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -1046,14 +1101,23 @@
         signupMsg.className = 'signup-msg err';
         return;
       }
-      signupMsg.textContent = 'Sending…';
+      signupMsg.textContent = '';
       signupMsg.className = 'signup-msg';
+      if (signupBtn) signupBtn.disabled = true;
+      mugLoader.classList.remove('filling');
+      mugLoader.classList.add('active');
+      // eslint-disable-next-line no-unused-expressions
+      mugLoader.offsetHeight; // force reflow so the fill transition restarts
+      mugLoader.classList.add('filling');
       try {
-        const res = await fetch(N8N_WEBHOOK, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: email, source: 'landing-first-pour' })
-        });
+        const [res] = await Promise.all([
+          fetch(N8N_WEBHOOK, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, source: 'landing-first-pour' })
+          }),
+          wait(5000)
+        ]);
         if (!res.ok) throw new Error('bad status ' + res.status);
         signupMsg.textContent = 'Check your inbox — your free-coffee voucher is on the way.';
         signupMsg.className = 'signup-msg ok';
@@ -1061,6 +1125,9 @@
       } catch (err) {
         signupMsg.textContent = 'Something brewed wrong. Try again in a moment.';
         signupMsg.className = 'signup-msg err';
+      } finally {
+        mugLoader.classList.remove('active', 'filling');
+        if (signupBtn) signupBtn.disabled = false;
       }
     });
   }
