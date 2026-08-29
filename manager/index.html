@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="icon" href="../image/logo.jpg" type="image/jpeg" />
+<title>Cafe Brewm — Campaign Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;0,600;0,700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#0A0A0A; --surface:#161616; --surface-2:#1F1F1F;
+    --brass:#9A9A9A; --brass-light:#D6D6D6;
+    --ember:#FFFFFF; --line:rgba(255,255,255,0.14);
+    --cream:#F2F2F2; --taupe:#8F8F8F;
+    --font-display:'Fraunces', serif; --font-body:'Inter', sans-serif; --font-mono:'JetBrains Mono', monospace;
+  }
+  *,*::before,*::after{ box-sizing:border-box; }
+  body{
+    margin:0; background:var(--void); color:var(--cream); font-family:var(--font-body);
+    line-height:1.6; padding: 2.5rem 1.5rem 5rem;
+  }
+  .wrap{ max-width: 720px; margin: 0 auto; }
+  h1{ font-family:var(--font-display); font-weight:600; font-size:1.9rem; margin:0 0 0.3rem; }
+  .sub{ color:var(--taupe); font-size:0.92rem; margin-bottom:2.2rem; }
+  .card{
+    background:var(--surface); border:1px solid var(--line); border-radius:16px;
+    padding:1.6rem; margin-bottom:1.4rem;
+  }
+  .card h2{
+    font-family:var(--font-mono); font-size:0.78rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--brass-light); margin:0 0 1rem;
+  }
+  label{ display:block; font-size:0.85rem; color:var(--taupe); margin-bottom:0.4rem; }
+  input[type="text"], textarea{
+    width:100%; background:var(--surface-2); border:1px solid var(--line); border-radius:10px;
+    padding:0.75rem 0.9rem; color:var(--cream); font-family:var(--font-body); font-size:0.95rem;
+    margin-bottom:1.1rem; resize:vertical;
+  }
+  input[type="text"]:focus, textarea:focus{ outline:none; border-color:var(--brass); }
+  textarea{ min-height:110px; }
+
+  .drop{
+    border:1.5px dashed var(--line); border-radius:12px; padding:1.4rem; text-align:center;
+    cursor:pointer; margin-bottom:1.1rem; transition:border-color .2s ease;
+  }
+  .drop:hover, .drop.drag{ border-color:var(--brass); }
+  .drop input{ display:none; }
+  .drop-label{ color:var(--taupe); font-size:0.88rem; }
+  #imgPreview{ max-width:100%; max-height:220px; border-radius:10px; margin-top:0.9rem; display:none; }
+
+  .sub-list{ max-height:260px; overflow-y:auto; border:1px solid var(--line); border-radius:10px; }
+  .sub-row{
+    display:flex; align-items:center; gap:0.7rem; padding:0.65rem 0.9rem;
+    border-bottom:1px solid var(--line); font-size:0.88rem;
+  }
+  .sub-row:last-child{ border-bottom:none; }
+  .sub-row input[type="checkbox"]{ width:16px; height:16px; accent-color:var(--brass-light); flex:none; }
+  .sub-email{ flex:1; }
+  .sub-meta{ color:var(--taupe); font-family:var(--font-mono); font-size:0.72rem; }
+  .select-all-row{
+    display:flex; align-items:center; justify-content:space-between; margin-bottom:0.7rem;
+  }
+  .select-all-row .left{ display:flex; align-items:center; gap:0.6rem; font-size:0.88rem; }
+  #refreshSubs{
+    background:none; border:1px solid var(--line); color:var(--brass-light); border-radius:999px;
+    padding:0.35rem 0.9rem; font-size:0.78rem; cursor:pointer; font-family:var(--font-mono);
+  }
+  #refreshSubs:hover{ border-color:var(--brass); }
+  .empty-subs{ padding:1.2rem; text-align:center; color:var(--taupe); font-size:0.85rem; }
+
+  .btn-send{
+    width:100%; padding:0.95rem; border:none; border-radius:999px;
+    background:linear-gradient(180deg, var(--ember), #C7C7C7); color:#121212;
+    font-weight:700; font-size:0.98rem; cursor:pointer; font-family:var(--font-body);
+    transition: transform .2s ease, opacity .2s ease;
+  }
+  .btn-send:hover{ transform:translateY(-2px); }
+  .btn-send:disabled{ opacity:0.5; cursor:not-allowed; transform:none; }
+
+  .status-msg{
+    margin-top:1rem; text-align:center; font-family:var(--font-mono); font-size:0.82rem;
+    min-height:1.2em;
+  }
+  .status-msg.ok{ color:#9fe6a0; }
+  .status-msg.err{ color:#ff9b9b; }
+  .status-msg.info{ color:var(--taupe); }
+
+  .count-pill{
+    display:inline-block; font-family:var(--font-mono); font-size:0.72rem; color:var(--brass-light);
+    border:1px solid var(--line); border-radius:999px; padding:0.15rem 0.6rem; margin-left:0.5rem;
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>Campaign Manager</h1>
+    <p class="sub">Send a one-time update to your Cafe Brewm subscribers — new items, "we're open today", anything. Backend runs on n8n.</p>
+
+    <div class="card">
+      <h2>Message</h2>
+      <label for="subjectInput">Subject</label>
+      <input type="text" id="subjectInput" placeholder="e.g. New item today — come try it!">
+      <label for="messageInput">Notes / Message</label>
+      <textarea id="messageInput" placeholder="Write what you want your subscribers to know..."></textarea>
+
+      <label>Image</label>
+      <div class="drop" id="dropZone">
+        <input type="file" id="imageInput" accept="image/*">
+        <div class="drop-label" id="dropLabel">Click to upload an image, or drag one here</div>
+        <img id="imgPreview" alt="Preview">
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Recipients <span class="count-pill" id="countPill">0 selected</span></h2>
+      <div class="select-all-row">
+        <div class="left">
+          <input type="checkbox" id="selectAll">
+          <label for="selectAll" style="margin:0;">Select all subscribers</label>
+        </div>
+        <button id="refreshSubs" type="button">Refresh list</button>
+      </div>
+      <div class="sub-list" id="subList">
+        <div class="empty-subs">Loading subscribers…</div>
+      </div>
+    </div>
+
+    <button class="btn-send" id="sendBtn">Send Now</button>
+    <p class="status-msg" id="statusMsg"></p>
+  </div>
+
+<script>
+  const N8N_BASE = 'https://n8n-production-b0b3.up.railway.app/webhook';
+  const subListEl = document.getElementById('subList');
+  const selectAllEl = document.getElementById('selectAll');
+  const countPill = document.getElementById('countPill');
+  const sendBtn = document.getElementById('sendBtn');
+  const statusMsg = document.getElementById('statusMsg');
+  const imageInput = document.getElementById('imageInput');
+  const dropZone = document.getElementById('dropZone');
+  const dropLabel = document.getElementById('dropLabel');
+  const imgPreview = document.getElementById('imgPreview');
+
+  let subscribers = [];
+  let imageBase64 = null;
+  let imageMimeType = null;
+
+  function setStatus(text, type){
+    statusMsg.textContent = text;
+    statusMsg.className = 'status-msg' + (type ? ' ' + type : '');
+  }
+
+  function updateCount(){
+    const checked = subListEl.querySelectorAll('input[type="checkbox"]:checked').length;
+    countPill.textContent = checked + ' selected';
+  }
+
+  function renderSubscribers(){
+    if (!subscribers.length){
+      subListEl.innerHTML = '<div class="empty-subs">No subscribers yet.</div>';
+      updateCount();
+      return;
+    }
+    subListEl.innerHTML = subscribers.map(s => `
+      <div class="sub-row">
+        <input type="checkbox" class="sub-check" value="${s.email}">
+        <span class="sub-email">${s.email}</span>
+        <span class="sub-meta">${s.reward || ''} · ${s.date || ''}</span>
+      </div>
+    `).join('');
+    subListEl.querySelectorAll('.sub-check').forEach(cb => {
+      cb.addEventListener('change', () => {
+        selectAllEl.checked = [...subListEl.querySelectorAll('.sub-check')].every(c => c.checked);
+        updateCount();
+      });
+    });
+    updateCount();
+  }
+
+  async function loadSubscribers(){
+    subListEl.innerHTML = '<div class="empty-subs">Loading subscribers…</div>';
+    try {
+      const res = await fetch(N8N_BASE + '/campaign-subscribers');
+      if (!res.ok) throw new Error('bad status ' + res.status);
+      subscribers = await res.json();
+      renderSubscribers();
+    } catch (err) {
+      subListEl.innerHTML = '<div class="empty-subs">Could not load subscribers. Check the n8n workflow is active.</div>';
+    }
+  }
+
+  selectAllEl.addEventListener('change', () => {
+    subListEl.querySelectorAll('.sub-check').forEach(cb => cb.checked = selectAllEl.checked);
+    updateCount();
+  });
+
+  document.getElementById('refreshSubs').addEventListener('click', loadSubscribers);
+
+  function handleImageFile(file){
+    if (!file || !file.type.startsWith('image/')) return;
+    imageMimeType = file.type;
+    const reader = new FileReader();
+    reader.onload = () => {
+      imageBase64 = reader.result;
+      imgPreview.src = imageBase64;
+      imgPreview.style.display = 'block';
+      dropLabel.textContent = file.name;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  dropZone.addEventListener('click', () => imageInput.click());
+  imageInput.addEventListener('change', (e) => handleImageFile(e.target.files[0]));
+  ['dragenter','dragover'].forEach(evt => dropZone.addEventListener(evt, (e) => { e.preventDefault(); dropZone.classList.add('drag'); }));
+  ['dragleave','drop'].forEach(evt => dropZone.addEventListener(evt, (e) => { e.preventDefault(); dropZone.classList.remove('drag'); }));
+  dropZone.addEventListener('drop', (e) => handleImageFile(e.dataTransfer.files[0]));
+
+  sendBtn.addEventListener('click', async () => {
+    const subject = document.getElementById('subjectInput').value.trim();
+    const message = document.getElementById('messageInput').value.trim();
+    const recipients = [...subListEl.querySelectorAll('.sub-check:checked')].map(cb => cb.value);
+
+    if (!subject || !message){
+      setStatus('Add a subject and a message first.', 'err');
+      return;
+    }
+    if (!imageBase64){
+      setStatus('Upload an image for the campaign.', 'err');
+      return;
+    }
+    if (!recipients.length){
+      setStatus('Select at least one subscriber.', 'err');
+      return;
+    }
+
+    sendBtn.disabled = true;
+    setStatus('Sending to ' + recipients.length + ' subscriber(s)…', 'info');
+
+    try {
+      const res = await fetch(N8N_BASE + '/send-campaign', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          subject, message, imageBase64, imageMimeType,
+          recipients
+        })
+      });
+      if (!res.ok) throw new Error('bad status ' + res.status);
+      const data = await res.json();
+      setStatus('Sent to ' + (data.sent ?? recipients.length) + ' subscriber(s). ☕', 'ok');
+    } catch (err) {
+      setStatus('Something went wrong sending the campaign. Try again.', 'err');
+    } finally {
+      sendBtn.disabled = false;
+    }
+  });
+
+  loadSubscribers();
+</script>
+</body>
+</html>

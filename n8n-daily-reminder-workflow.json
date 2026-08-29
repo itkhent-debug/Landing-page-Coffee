@@ -1,0 +1,102 @@
+﻿{
+    "name":  "Coffee Daily Open Reminder",
+    "nodes":  [
+                  {
+                      "parameters":  {
+                                         "rule":  {
+                                                      "interval":  [
+                                                                       {
+                                                                           "field":  "hours",
+                                                                           "hoursInterval":  24,
+                                                                           "triggerAtHour":  9
+                                                                       }
+                                                                   ]
+                                                  }
+                                     },
+                      "name":  "Every Day 9am",
+                      "type":  "n8n-nodes-base.scheduleTrigger",
+                      "typeVersion":  1.2,
+                      "position":  [
+                                       -800,
+                                       0
+                                   ],
+                      "id":  "dr-schedule-0001"
+                  },
+                  {
+                      "parameters":  {
+                                         "operation":  "get",
+                                         "dataTableId":  {
+                                                             "__rl":  true,
+                                                             "value":  "yGYq1FvaESbesLXE",
+                                                             "mode":  "list",
+                                                             "cachedResultName":  "Coffee Signups"
+                                                         },
+                                         "filters":  {
+                                                         "conditions":  [
+
+                                                                        ]
+                                                     }
+                                     },
+                      "name":  "Get All Subscribers",
+                      "type":  "n8n-nodes-base.dataTable",
+                      "typeVersion":  1,
+                      "position":  [
+                                       -576,
+                                       0
+                                   ],
+                      "id":  "dr-datatable-0001"
+                  },
+                  {
+                      "parameters":  {
+                                         "sendTo":  "={{ $json.email }}",
+                                         "subject":  "We\u0027re open today ? - Cafe Brewm",
+                                         "message":  "={{ \"\u003cp\u003eHi there,\u003c/p\u003e\u003cp\u003eJust a friendly reminder that Cafe Brewm is \u003cb\u003eopen today\u003c/b\u003e. Maybe it\u0027s time for a coffee?\u003c/p\u003e\u003cp\u003eSee you on the road,\u003cbr\u003eCafe Brewm\u003c/p\u003e\" }}",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "name":  "Send Daily Reminder",
+                      "type":  "n8n-nodes-base.gmail",
+                      "typeVersion":  2.1,
+                      "position":  [
+                                       -352,
+                                       0
+                                   ],
+                      "id":  "dr-gmail-0001",
+                      "credentials":  {
+                                          "gmailOAuth2":  {
+                                                              "id":  "3IOb50mX0l8dy2VX",
+                                                              "name":  "Gmail account"
+                                                          }
+                                      },
+                      "webhookId":  "f902e6fb-4c3d-4a22-b5e5-beb3a13f5750"
+                  }
+              ],
+    "connections":  {
+                        "Every Day 9am":  {
+                                              "main":  [
+                                                           [
+                                                               {
+                                                                   "node":  "Get All Subscribers",
+                                                                   "type":  "main",
+                                                                   "index":  0
+                                                               }
+                                                           ]
+                                                       ]
+                                          },
+                        "Get All Subscribers":  {
+                                                    "main":  [
+                                                                 [
+                                                                     {
+                                                                         "node":  "Send Daily Reminder",
+                                                                         "type":  "main",
+                                                                         "index":  0
+                                                                     }
+                                                                 ]
+                                                             ]
+                                                }
+                    },
+    "settings":  {
+                     "executionOrder":  "v1"
+                 }
+}

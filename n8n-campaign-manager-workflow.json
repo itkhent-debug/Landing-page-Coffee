@@ -1,0 +1,216 @@
+﻿{
+    "name":  "Coffee Campaign Manager",
+    "nodes":  [
+                  {
+                      "parameters":  {
+                                         "httpMethod":  "GET",
+                                         "path":  "campaign-subscribers",
+                                         "responseMode":  "responseNode",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "name":  "Get Subscribers Trigger",
+                      "type":  "n8n-nodes-base.webhook",
+                      "typeVersion":  2,
+                      "position":  [
+                                       -800,
+                                       0
+                                   ],
+                      "webhookId":  "campaign-subscribers",
+                      "id":  "ct-webhook-get-0001"
+                  },
+                  {
+                      "parameters":  {
+                                         "operation":  "get",
+                                         "dataTableId":  {
+                                                             "__rl":  true,
+                                                             "value":  "yGYq1FvaESbesLXE",
+                                                             "mode":  "list",
+                                                             "cachedResultName":  "Coffee Signups"
+                                                         },
+                                         "filters":  {
+                                                         "conditions":  [
+
+                                                                        ]
+                                                     }
+                                     },
+                      "name":  "Get All Subscribers",
+                      "type":  "n8n-nodes-base.dataTable",
+                      "typeVersion":  1,
+                      "position":  [
+                                       -576,
+                                       0
+                                   ],
+                      "id":  "ct-datatable-getall-0001"
+                  },
+                  {
+                      "parameters":  {
+                                         "respondWith":  "json",
+                                         "responseBody":  "={{ $input.all().map(i =\u003e i.json) }}",
+                                         "options":  {
+                                                         "responseCode":  200,
+                                                         "responseHeaders":  {
+                                                                                 "entries":  [
+                                                                                                 {
+                                                                                                     "value":  "application/json",
+                                                                                                     "name":  "Content-Type"
+                                                                                                 }
+                                                                                             ]
+                                                                             }
+                                                     }
+                                     },
+                      "name":  "Respond Subscribers",
+                      "type":  "n8n-nodes-base.respondToWebhook",
+                      "typeVersion":  1,
+                      "position":  [
+                                       -352,
+                                       0
+                                   ],
+                      "id":  "ct-respond-get-0001"
+                  },
+                  {
+                      "parameters":  {
+                                         "httpMethod":  "POST",
+                                         "path":  "send-campaign",
+                                         "responseMode":  "responseNode",
+                                         "options":  {
+
+                                                     }
+                                     },
+                      "name":  "Send Campaign Trigger",
+                      "type":  "n8n-nodes-base.webhook",
+                      "typeVersion":  2,
+                      "position":  [
+                                       -800,
+                                       240
+                                   ],
+                      "webhookId":  "send-campaign",
+                      "id":  "ct-webhook-post-0001"
+                  },
+                  {
+                      "parameters":  {
+                                         "jsCode":  "const body = $input.first().json.body || $input.first().json;\nconst recipients = Array.isArray(body.recipients) ? [...new Set(body.recipients)] : [];\nconst subject = body.subject || \"Update from Cafe Brewm\";\nconst message = body.message || \"\";\nlet binaryData;\nif (body.imageBase64) {\n  const base64 = String(body.imageBase64).split(\",\").pop();\n  const buffer = Buffer.from(base64, \"base64\");\n  binaryData = await this.helpers.prepareBinaryData(buffer, \"campaign-image.jpg\", body.imageMimeType || \"image/jpeg\");\n}\nreturn recipients.map(email =\u003e {\n  const item = { json: { email: email, subject: subject, message: message } };\n  if (binaryData) item.binary = { attachment: binaryData };\n  return item;\n});",
+                                         "mode":  "runOnceForAllItems"
+                                     },
+                      "name":  "Build Recipient Emails",
+                      "type":  "n8n-nodes-base.code",
+                      "typeVersion":  2,
+                      "position":  [
+                                       -576,
+                                       240
+                                   ],
+                      "id":  "ct-code-build-0001"
+                  },
+                  {
+                      "parameters":  {
+                                         "sendTo":  "={{ $json.email }}",
+                                         "subject":  "={{ $json.subject }}",
+                                         "message":  "={{ $json.message }}",
+                                         "options":  {
+                                                         "attachmentsBinaryPropertyNames":  "attachment"
+                                                     }
+                                     },
+                      "name":  "Send Campaign Email",
+                      "type":  "n8n-nodes-base.gmail",
+                      "typeVersion":  2.1,
+                      "position":  [
+                                       -352,
+                                       240
+                                   ],
+                      "id":  "ct-gmail-send-0001",
+                      "credentials":  {
+                                          "gmailOAuth2":  {
+                                                              "id":  "3IOb50mX0l8dy2VX",
+                                                              "name":  "Gmail account"
+                                                          }
+                                      },
+                      "webhookId":  "2480e334-1755-4bbf-867a-cbeb7549d0ab"
+                  },
+                  {
+                      "parameters":  {
+                                         "respondWith":  "json",
+                                         "responseBody":  "={{ { success: true, sent: $items().length } }}",
+                                         "options":  {
+                                                         "responseCode":  200,
+                                                         "responseHeaders":  {
+                                                                                 "entries":  [
+                                                                                                 {
+                                                                                                     "value":  "application/json",
+                                                                                                     "name":  "Content-Type"
+                                                                                                 }
+                                                                                             ]
+                                                                             }
+                                                     }
+                                     },
+                      "name":  "Respond Campaign Sent",
+                      "type":  "n8n-nodes-base.respondToWebhook",
+                      "typeVersion":  1,
+                      "position":  [
+                                       -128,
+                                       240
+                                   ],
+                      "id":  "ct-respond-post-0001"
+                  }
+              ],
+    "connections":  {
+                        "Get Subscribers Trigger":  {
+                                                        "main":  [
+                                                                     [
+                                                                         {
+                                                                             "node":  "Get All Subscribers",
+                                                                             "type":  "main",
+                                                                             "index":  0
+                                                                         }
+                                                                     ]
+                                                                 ]
+                                                    },
+                        "Get All Subscribers":  {
+                                                    "main":  [
+                                                                 [
+                                                                     {
+                                                                         "node":  "Respond Subscribers",
+                                                                         "type":  "main",
+                                                                         "index":  0
+                                                                     }
+                                                                 ]
+                                                             ]
+                                                },
+                        "Send Campaign Trigger":  {
+                                                      "main":  [
+                                                                   [
+                                                                       {
+                                                                           "node":  "Build Recipient Emails",
+                                                                           "type":  "main",
+                                                                           "index":  0
+                                                                       }
+                                                                   ]
+                                                               ]
+                                                  },
+                        "Build Recipient Emails":  {
+                                                       "main":  [
+                                                                    [
+                                                                        {
+                                                                            "node":  "Send Campaign Email",
+                                                                            "type":  "main",
+                                                                            "index":  0
+                                                                        }
+                                                                    ]
+                                                                ]
+                                                   },
+                        "Send Campaign Email":  {
+                                                    "main":  [
+                                                                 [
+                                                                     {
+                                                                         "node":  "Respond Campaign Sent",
+                                                                         "type":  "main",
+                                                                         "index":  0
+                                                                     }
+                                                                 ]
+                                                             ]
+                                                }
+                    },
+    "settings":  {
+                     "executionOrder":  "v1"
+                 }
+}
