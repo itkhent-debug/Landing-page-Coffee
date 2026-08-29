@@ -33,12 +33,13 @@
     color:var(--brass-light); margin:0 0 1rem;
   }
   label{ display:block; font-size:0.85rem; color:var(--taupe); margin-bottom:0.4rem; }
-  input[type="text"], textarea{
+  input[type="text"], input[type="date"], input[type="time"], textarea{
     width:100%; background:var(--surface-2); border:1px solid var(--line); border-radius:10px;
     padding:0.75rem 0.9rem; color:var(--cream); font-family:var(--font-body); font-size:0.95rem;
     margin-bottom:1.1rem; resize:vertical;
   }
-  input[type="text"]:focus, textarea:focus{ outline:none; border-color:var(--brass); }
+  input[type="date"], input[type="time"]{ color-scheme: dark; }
+  input[type="text"]:focus, input[type="date"]:focus, input[type="time"]:focus, textarea:focus{ outline:none; border-color:var(--brass); }
   textarea{ min-height:110px; }
 
   .drop{
@@ -127,6 +128,22 @@
       </div>
     </div>
 
+    <div class="card">
+      <h2>Timing</h2>
+      <div class="select-all-row" style="margin-bottom:1rem;">
+        <div class="left">
+          <input type="checkbox" id="scheduleToggle">
+          <label for="scheduleToggle" style="margin:0;">Schedule for later instead of sending now</label>
+        </div>
+      </div>
+      <div id="scheduleFields" style="display:none;">
+        <label for="scheduleDate">Date</label>
+        <input type="date" id="scheduleDate" style="margin-bottom:1.1rem;">
+        <label for="scheduleTime">Time</label>
+        <input type="time" id="scheduleTime">
+      </div>
+    </div>
+
     <button class="btn-send" id="sendBtn">Send Now</button>
     <p class="status-msg" id="statusMsg"></p>
   </div>
@@ -142,6 +159,15 @@
   const dropZone = document.getElementById('dropZone');
   const dropLabel = document.getElementById('dropLabel');
   const imgPreview = document.getElementById('imgPreview');
+  const scheduleToggle = document.getElementById('scheduleToggle');
+  const scheduleFields = document.getElementById('scheduleFields');
+  const scheduleDate = document.getElementById('scheduleDate');
+  const scheduleTime = document.getElementById('scheduleTime');
+
+  scheduleToggle.addEventListener('change', () => {
+    scheduleFields.style.display = scheduleToggle.checked ? 'block' : 'none';
+    sendBtn.textContent = scheduleToggle.checked ? 'Schedule Campaign' : 'Send Now';
+  });
 
   let subscribers = [];
   let imageBase64 = null;
@@ -235,23 +261,43 @@
       return;
     }
 
+    let scheduledAt = null;
+    let scheduleLabel = '';
+    if (scheduleToggle.checked){
+      if (!scheduleDate.value || !scheduleTime.value){
+        setStatus('Pick a date and time to schedule the campaign.', 'err');
+        return;
+      }
+      const local = new Date(scheduleDate.value + 'T' + scheduleTime.value);
+      if (isNaN(local.getTime()) || local.getTime() <= Date.now()){
+        setStatus('Pick a date and time in the future.', 'err');
+        return;
+      }
+      scheduledAt = local.toISOString();
+      scheduleLabel = local.toLocaleString();
+    }
+
     sendBtn.disabled = true;
-    setStatus('Sending to ' + recipients.length + ' subscriber(s)…', 'info');
+    setStatus(scheduledAt ? 'Scheduling for ' + scheduleLabel + '…' : 'Sending to ' + recipients.length + ' subscriber(s)…', 'info');
 
     try {
+      const payload = { subject, message, imageBase64, imageMimeType, recipients };
+      if (scheduledAt) payload.scheduledAt = scheduledAt;
+
       const res = await fetch(N8N_BASE + '/send-campaign', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          subject, message, imageBase64, imageMimeType,
-          recipients
-        })
+        body: JSON.stringify(payload)
       });
       if (!res.ok) throw new Error('bad status ' + res.status);
-      const data = await res.json();
-      setStatus('Sent to ' + (data.sent ?? recipients.length) + ' subscriber(s). ☕', 'ok');
+      setStatus(
+        scheduledAt
+          ? 'Scheduled for ' + scheduleLabel + ' — ' + recipients.length + ' subscriber(s). ☕'
+          : 'Sent to ' + recipients.length + ' subscriber(s). ☕',
+        'ok'
+      );
     } catch (err) {
-      setStatus('Something went wrong sending the campaign. Try again.', 'err');
+      setStatus('Something went wrong. Try again.', 'err');
     } finally {
       sendBtn.disabled = false;
     }
