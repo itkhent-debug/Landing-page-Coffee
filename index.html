@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="Cafe Brewm — Where Coffee Meets The Road. A coffee stop for riders and road-trippers, pulled fast, poured strong, open daily 6AM–11PM." />
+<meta name="description" content="Cafe Brewm — Where Coffee Meets The Road. A specialty coffee sanctuary for riders, road-trippers, and espresso purists. Pulled fast, poured strong, open daily 6AM–11PM." />
 <link rel="icon" href="image/logo.jpg" type="image/jpeg" />
 <title>Cafe Brewm — Where Coffee Meets The Road</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,27 +13,27 @@
 
 /* ============ TOKENS ============ */
 :root {
-  /* Warm coffee & roasted amber palette */
-  --void:        #0C0A08;
-  --surface:     #141210;
-  --surface-2:   #1C1915;
-  --surface-3:   #25201A;
+  --void:        #0B0907;
+  --surface:     #13100D;
+  --surface-2:   #1A1612;
+  --surface-3:   #231D17;
+  --surface-card:#1E1914;
   --amber:       #D48B38;
   --amber-light: #F3B25C;
   --amber-pale:  #FDE5BA;
-  --amber-glow:  rgba(212, 139, 56, 0.4);
+  --amber-glow:  rgba(212, 139, 56, 0.45);
   --cream:       #F8EEDB;
   --cream-dim:   #CBBCA7;
   --taupe:       #8E7F70;
   --wine:        #2E2218;
-  --line:        rgba(212, 139, 56, 0.2);
+  --line:        rgba(212, 139, 56, 0.22);
   --line-soft:   rgba(248, 238, 219, 0.08);
 
   --font-display: 'Fraunces', serif;
   --font-body:    'Inter', sans-serif;
   --font-mono:    'JetBrains Mono', monospace;
 
-  --section-pad: clamp(5rem, 10vw, 9rem);
+  --section-pad: clamp(5.5rem, 10vw, 9.5rem);
   --edge-pad:    clamp(1.5rem, 6vw, 5rem);
 
   --ease-expo:   cubic-bezier(0.16, 1, 0.3, 1);
@@ -55,21 +55,21 @@ body {
 img, svg { display: block; max-width: 100%; }
 a { color: inherit; text-decoration: none; }
 ul { list-style: none; margin: 0; padding: 0; }
-h1, h2, h3 { font-family: var(--font-display); font-weight: 600; margin: 0; color: var(--cream); }
+h1, h2, h3, h4 { font-family: var(--font-display); font-weight: 600; margin: 0; color: var(--cream); }
 p { margin: 0; }
 a:focus-visible, button:focus-visible {
   outline: 2px solid var(--amber);
   outline-offset: 3px;
-  border-radius: 2px;
+  border-radius: 4px;
 }
-::selection { background: var(--amber); color: var(--void); }
+::selection { background: var(--amber); color: #100B06; }
 
 /* ============ GRAIN OVERLAY ============ */
 .grain {
   position: fixed; inset: 0;
   z-index: 999;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: 0.032;
   mix-blend-mode: overlay;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
@@ -81,34 +81,34 @@ a:focus-visible, button:focus-visible {
   background: linear-gradient(90deg, var(--amber), var(--amber-pale), var(--amber));
   z-index: 600; pointer-events: none;
   transition: transform 0.05s linear;
-  box-shadow: 0 0 12px var(--amber-glow);
+  box-shadow: 0 0 14px var(--amber-glow);
 }
 
 /* ============ SECTION LABELS ============ */
 .section-eyebrow {
   display: inline-flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 0.8rem;
   font-family: var(--font-mono);
   font-size: 0.72rem;
   letter-spacing: 0.28em;
   text-transform: uppercase;
   color: var(--amber-light);
-  margin-bottom: 1rem;
+  margin-bottom: 1.1rem;
 }
 .section-eyebrow::before {
   content: '';
   display: inline-block;
-  width: 20px;
-  height: 1px;
+  width: 24px;
+  height: 1.5px;
   background: var(--amber);
 }
 .section-title {
-  font-size: clamp(2rem, 3.8vw, 3rem);
+  font-size: clamp(2.1rem, 3.8vw, 3.1rem);
   font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.18;
-  max-width: 22ch;
+  letter-spacing: -0.025em;
+  line-height: 1.16;
+  max-width: 24ch;
 }
 .section-head { margin-bottom: clamp(3rem, 5vw, 4.8rem); }
 
@@ -117,7 +117,7 @@ a:focus-visible, button:focus-visible {
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
-  padding: 0.9rem 1.9rem;
+  padding: 0.95rem 2rem;
   font-family: var(--font-body);
   font-size: 0.92rem;
   font-weight: 600;
@@ -140,18 +140,18 @@ a:focus-visible, button:focus-visible {
 .btn:hover::after { transform: translateX(100%); }
 .btn-primary {
   background: linear-gradient(135deg, var(--amber), var(--amber-light));
-  color: #150E07;
+  color: #120C06;
   box-shadow: 0 8px 26px -6px rgba(212,139,56,0.5), 0 0 0 1px rgba(212,139,56,0.3);
 }
 .btn-primary:hover {
   transform: translateY(-3px) scale(1.02);
-  box-shadow: 0 16px 36px -8px rgba(212,139,56,0.65), 0 0 0 1px rgba(243,178,92,0.4);
+  box-shadow: 0 16px 36px -8px rgba(212,139,56,0.7), 0 0 0 1px rgba(243,178,92,0.4);
 }
 .btn-ghost {
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.035);
   border: 1px solid var(--line);
   color: var(--cream);
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
 }
 .btn-ghost:hover {
   border-color: var(--amber);
@@ -171,7 +171,7 @@ a:focus-visible, button:focus-visible {
   transition: background 0.45s ease, border-color 0.45s ease, padding 0.35s ease, backdrop-filter 0.45s ease;
 }
 .nav.scrolled {
-  background: rgba(12,10,8,0.92);
+  background: rgba(11,9,7,0.92);
   backdrop-filter: blur(18px) saturate(180%);
   border-bottom: 1px solid var(--line);
   padding-top: 0.85rem; padding-bottom: 0.85rem;
@@ -197,7 +197,7 @@ a:focus-visible, button:focus-visible {
 }
 .logo-name em { font-style: italic; color: var(--amber); }
 .footer-logo-img { height: 42px; width: 42px; }
-.nav-links { display: flex; gap: 2.4rem; }
+.nav-links { display: flex; gap: 2.2rem; }
 .nav-links a {
   font-size: 0.88rem;
   font-weight: 500;
@@ -227,7 +227,7 @@ a:focus-visible, button:focus-visible {
 }
 .nav-cta:hover {
   background: var(--amber);
-  color: #150E07;
+  color: #120C06;
   box-shadow: 0 0 22px var(--amber-glow);
 }
 .nav-toggle { display: none; background: none; border: none; padding: 0.4rem; cursor: pointer; }
@@ -254,8 +254,8 @@ a:focus-visible, button:focus-visible {
   content: '';
   position: absolute; inset: 0;
   background:
-    linear-gradient(160deg, rgba(12,10,8,0.92) 0%, rgba(12,10,8,0.6) 52%, rgba(12,10,8,0.9) 100%),
-    radial-gradient(ellipse 75% 85% at 15% 55%, rgba(12,10,8,0.75), transparent);
+    linear-gradient(160deg, rgba(11,9,7,0.92) 0%, rgba(11,9,7,0.6) 52%, rgba(11,9,7,0.92) 100%),
+    radial-gradient(ellipse 75% 85% at 15% 55%, rgba(11,9,7,0.8), transparent);
 }
 .hero-particles { position: absolute; inset: 0; pointer-events: none; z-index: 1; overflow: hidden; }
 .particle {
@@ -391,7 +391,7 @@ a:focus-visible, button:focus-visible {
   border-radius: 50%;
   background: linear-gradient(135deg, var(--amber), #9A5A1A);
   display: flex; align-items: center; justify-content: center;
-  color: #150E07; font-family: var(--font-display);
+  color: #120C06; font-family: var(--font-display);
   font-size: 0.72rem; font-weight: 700; text-align: center;
   line-height: 1.2;
   animation: rotateBadge 16s linear infinite reverse;
@@ -449,18 +449,6 @@ a:focus-visible, button:focus-visible {
 .marquee-track span .dot-sep { color: var(--amber); font-size: 0.6rem; }
 @keyframes scrollLeft { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-/* ============ GENERIC SECTION ============ */
-section { padding: var(--section-pad) var(--edge-pad); position: relative; }
-
-.reveal {
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.85s var(--ease-expo), transform 0.85s var(--ease-expo);
-}
-.reveal.is-visible { opacity: 1; transform: translateY(0); }
-.reveal-delay-1 { transition-delay: 0.12s; }
-.reveal-delay-2 { transition-delay: 0.24s; }
-
 /* ============ HIGHLIGHTS ============ */
 .highlights { background: var(--surface); border-bottom: 1px solid var(--line); }
 .highlights-inner {
@@ -499,6 +487,57 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
   transition: width 0.45s var(--ease-expo);
 }
 .highlight:hover .highlight-bar { width: 64px; }
+
+/* ============ GENERIC SECTION ============ */
+section { padding: var(--section-pad) var(--edge-pad); position: relative; }
+
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity 0.85s var(--ease-expo), transform 0.85s var(--ease-expo);
+}
+.reveal.is-visible { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.12s; }
+.reveal-delay-2 { transition-delay: 0.24s; }
+.reveal-delay-3 { transition-delay: 0.36s; }
+
+/* ============ PHILOSOPHY BANNER ============ */
+.road-quote-banner {
+  background: linear-gradient(180deg, var(--surface), var(--void));
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 4.5rem var(--edge-pad);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.road-quote-banner::before {
+  content: 'COFFEE & ROAD';
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 12vw, 9rem);
+  font-weight: 800;
+  color: rgba(212,139,56,0.03);
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+.road-quote-inner { max-width: 820px; margin: 0 auto; position: relative; z-index: 2; }
+.road-quote-text {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: clamp(1.5rem, 3.2vw, 2.3rem);
+  line-height: 1.35;
+  color: var(--cream);
+  margin-bottom: 1rem;
+}
+.road-quote-sub {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--amber-light);
+}
 
 /* ============ RITUAL ============ */
 .ritual { background: var(--void); overflow: hidden; }
@@ -553,8 +592,105 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
 .step h3 { font-size: 1.4rem; margin-bottom: 0.75rem; font-weight: 500; line-height: 1.25; }
 .step p { color: var(--taupe); font-size: 0.95rem; max-width: 32ch; line-height: 1.65; }
 
+/* ============ COFFEE CRAFT SHOWCASE (NEW) ============ */
+.craft-section {
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  overflow: hidden;
+}
+.craft-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 4rem;
+  align-items: center;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.craft-images {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 1.5rem;
+}
+.craft-img-card {
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(212,139,56,0.3);
+  box-shadow: 0 20px 50px -15px rgba(0,0,0,0.7);
+  transition: transform 0.5s var(--ease-expo), border-color 0.4s ease;
+}
+.craft-img-card:hover {
+  transform: translateY(-6px) scale(1.02);
+  border-color: var(--amber-light);
+}
+.craft-img-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.craft-img-card.main-card {
+  height: 380px;
+}
+.craft-img-card.sub-card {
+  height: 320px;
+  margin-top: 3.5rem;
+}
+.craft-badge-floating {
+  position: absolute;
+  bottom: 1.2rem;
+  left: 1.2rem;
+  background: rgba(19,16,13,0.85);
+  backdrop-filter: blur(12px);
+  padding: 0.5rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--amber-light);
+  letter-spacing: 0.1em;
+}
+.craft-specs {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.4rem;
+  margin-top: 2.2rem;
+}
+.craft-spec-item {
+  background: var(--surface-card);
+  padding: 1.2rem 1.1rem;
+  border-radius: 12px;
+  border: 1px solid var(--line-soft);
+  transition: border-color 0.3s ease, background 0.3s ease;
+}
+.craft-spec-item:hover {
+  border-color: var(--amber);
+  background: rgba(212,139,56,0.06);
+}
+.craft-spec-title {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--amber);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+.craft-spec-val {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--cream);
+  font-family: var(--font-display);
+}
+.craft-spec-desc {
+  font-size: 0.8rem;
+  color: var(--taupe);
+  margin-top: 0.2rem;
+}
+
 /* ============ MENU ============ */
-.menu-section { background: var(--surface); overflow: hidden; }
+.menu-section { background: var(--void); overflow: hidden; }
 .menu-section::before {
   content: '';
   position: absolute; bottom: -250px; left: -150px;
@@ -563,7 +699,8 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
   filter: blur(65px);
   pointer-events: none;
 }
-.menu-head { display: flex; align-items: center; gap: 2.2rem; flex-wrap: wrap; }
+.menu-head { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 2rem; }
+.menu-head-left { display: flex; align-items: center; gap: 2.2rem; }
 .brew-cup { position: relative; width: 62px; height: 74px; flex: 0 0 auto; }
 .brew-steam {
   position: absolute; top: -20px; left: 50%; transform: translateX(-50%);
@@ -604,6 +741,36 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
   60% { height: 88%; }
   100% { height: 88%; }
 }
+
+/* Category Filter Tabs */
+.menu-filters {
+  display: flex; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 2.5rem;
+}
+.filter-btn {
+  font-family: var(--font-mono);
+  font-size: 0.74rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.55rem 1.25rem;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--line-soft);
+  color: var(--taupe);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+.filter-btn:hover {
+  color: var(--cream);
+  border-color: var(--amber);
+}
+.filter-btn.active {
+  background: var(--amber);
+  color: #120C06;
+  border-color: var(--amber);
+  font-weight: 600;
+  box-shadow: 0 0 16px var(--amber-glow);
+}
+
 .ticket-rail {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -615,7 +782,7 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
   border: 1px solid var(--line-soft);
   padding: 1.9rem 1.75rem 2.3rem;
   position: relative;
-  border-radius: 12px;
+  border-radius: 14px;
   clip-path: polygon(0 0,100% 0,100% 92%,94% 100%,88% 92%,82% 100%,76% 92%,70% 100%,64% 92%,58% 100%,52% 92%,46% 100%,40% 92%,34% 100%,28% 92%,22% 100%,16% 92%,10% 100%,4% 92%,0 100%);
   opacity: 0;
   transform: translateY(40px) rotateX(12deg);
@@ -626,6 +793,7 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
   will-change: transform;
 }
 .ticket.is-visible { opacity: 1; transform: translateY(0) rotateX(0); }
+.ticket.hidden { display: none !important; }
 .ticket:hover {
   border-color: rgba(212,139,56,0.55);
   box-shadow: 0 24px 60px -20px rgba(212,139,56,0.4), inset 0 0 35px rgba(212,139,56,0.05);
@@ -647,13 +815,13 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
   background: linear-gradient(90deg, transparent, var(--amber), transparent);
   opacity: 0;
   transition: opacity 0.4s ease;
-  border-radius: 12px 12px 0 0;
+  border-radius: 14px 14px 0 0;
 }
 .ticket:hover::after { opacity: 1; }
 .ticket-badge {
   display: inline-flex; align-items: center; gap: 0.45rem;
   font-family: var(--font-mono); font-size: 0.6rem; letter-spacing: 0.15em;
-  text-transform: uppercase; color: #150E07;
+  text-transform: uppercase; color: #120C06;
   background: linear-gradient(135deg, var(--amber-light), var(--amber));
   padding: 0.3rem 0.7rem; border-radius: 999px;
   margin-bottom: 1.05rem;
@@ -661,7 +829,7 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
   font-weight: 600;
 }
 .ticket-badge .dot {
-  width: 6px; height: 6px; border-radius: 50%; background: #150E07;
+  width: 6px; height: 6px; border-radius: 50%; background: #120C06;
   animation: badgePulse 2s ease-in-out infinite;
 }
 @keyframes badgePulse {
@@ -681,6 +849,19 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
 }
 .ticket:hover .ticket-name { color: var(--amber-light); }
 .ticket-desc { color: var(--taupe); font-size: 0.92rem; line-height: 1.6; min-height: 3em; }
+
+/* Tasting notes pills */
+.ticket-flavor-notes {
+  display: flex; gap: 0.4rem; flex-wrap: wrap; margin-top: 0.8rem;
+}
+.flavor-pill {
+  font-family: var(--font-mono); font-size: 0.62rem;
+  padding: 0.2rem 0.55rem; border-radius: 4px;
+  background: rgba(255,255,255,0.04);
+  color: var(--cream-dim);
+  border: 1px solid var(--line-soft);
+}
+
 .ticket-bottom {
   display: flex; justify-content: space-between; align-items: center;
   margin-top: 1.4rem; padding-top: 1.1rem;
@@ -714,7 +895,7 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
 .ticket:hover .ticket-price .arrow { opacity: 1; transform: translateX(0); }
 
 /* ============ ORIGINS ============ */
-.origins-section { background: var(--void); overflow: hidden; }
+.origins-section { background: var(--surface); overflow: hidden; border-top: 1px solid var(--line); }
 .origins-section::before {
   content: '';
   position: absolute; top: 50%; right: -10%;
@@ -728,7 +909,7 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
 .origin-card {
   border: 1px solid var(--line);
   padding: 2.4rem 2rem;
-  border-radius: 12px;
+  border-radius: 14px;
   background: linear-gradient(145deg, rgba(212,139,56,0.05), transparent 60%);
   position: relative;
   overflow: hidden;
@@ -760,11 +941,31 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
 }
 .spec-sheet dt { font-family: var(--font-mono); font-size: 0.72rem; color: var(--taupe); letter-spacing: 0.1em; }
 .spec-sheet dd { margin: 0; font-size: 0.9rem; text-align: right; color: var(--cream-dim); }
-.taste-bar {
-  margin-top: 1.5rem; padding-top: 1.3rem;
-  border-top: 1px solid var(--line-soft);
+
+/* Roast dial indicator */
+.roast-level-meter {
+  margin-top: 1.4rem; padding-top: 1.1rem; border-top: 1px solid var(--line-soft);
 }
-.taste-label { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.14em; color: var(--taupe); margin-bottom: 0.55rem; text-transform: uppercase; }
+.roast-meter-header {
+  display: flex; justify-content: space-between;
+  font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.1em;
+  color: var(--taupe); margin-bottom: 0.5rem; text-transform: uppercase;
+}
+.roast-meter-val { color: var(--amber-light); font-weight: 600; }
+.roast-meter-bar {
+  height: 6px; background: rgba(255,255,255,0.06); border-radius: 999px; overflow: hidden;
+}
+.roast-meter-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #9C5E28, #5A3515, #2C1605);
+  border-radius: 999px;
+  width: var(--roast);
+}
+
+.taste-bar {
+  margin-top: 1rem;
+}
+.taste-label { font-family: var(--font-mono); font-size: 0.68rem; letter-spacing: 0.14em; color: var(--taupe); margin-bottom: 0.5rem; text-transform: uppercase; }
 .taste-track { height: 4px; background: var(--line-soft); border-radius: 2px; overflow: hidden; }
 .taste-fill {
   height: 100%;
@@ -775,42 +976,93 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
 }
 .origin-card.is-visible .taste-fill { width: var(--fill); }
 
-/* ============ QUOTE / TESTIMONIAL ============ */
-.quote-section {
-  background: var(--surface);
+/* ============ TESTIMONIALS / QUOTES (EXPANDED) ============ */
+.quotes-section {
+  background: var(--void);
   position: relative; overflow: hidden;
+  border-top: 1px solid var(--line);
 }
-.quote-section::before {
-  content: '"';
-  position: absolute; top: -3.5rem; left: var(--edge-pad);
-  font-family: var(--font-display);
-  font-size: 20rem; line-height: 1;
-  color: var(--amber);
-  opacity: 0.05;
+.quotes-section::before {
+  content: '';
+  position: absolute; top: -200px; left: 50%; transform: translateX(-50%);
+  width: 800px; height: 500px;
+  background: radial-gradient(circle, rgba(212,139,56,0.08), transparent 70%);
+  filter: blur(60px);
   pointer-events: none;
+}
+.quotes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.8rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.quote-card {
+  background: var(--surface-card);
+  border: 1px solid var(--line-soft);
+  border-radius: 14px;
+  padding: 2.2rem 1.8rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.4s var(--ease-expo), border-color 0.4s ease, box-shadow 0.4s ease;
+}
+.quote-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(212,139,56,0.4);
+  box-shadow: 0 20px 40px -15px rgba(212,139,56,0.2);
+}
+.quote-card-mark {
+  font-family: var(--font-display);
+  font-size: 3.2rem;
+  line-height: 0.8;
+  color: var(--amber);
+  opacity: 0.4;
+  margin-bottom: 0.8rem;
+}
+.quote-card-text {
+  font-family: var(--font-display);
   font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: var(--cream);
+  margin-bottom: 1.8rem;
 }
-.quote-wrap { max-width: 880px; margin: 0 auto; text-align: center; }
-.quote-stars {
-  display: flex; gap: 0.35rem; justify-content: center; margin-bottom: 1.8rem;
+.quote-card-author {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  border-top: 1px solid var(--line-soft);
+  padding-top: 1.2rem;
 }
-.quote-stars span { color: var(--amber); font-size: 1.15rem; }
-.quote-text {
-  font-family: var(--font-display); font-style: italic; font-weight: 500;
-  font-size: clamp(1.6rem, 3.6vw, 2.5rem); line-height: 1.32;
-  color: var(--cream); margin-bottom: 2rem;
+.quote-avatar {
+  width: 44px; height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--surface-3), var(--wine));
+  border: 1.5px solid var(--amber);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  flex-shrink: 0;
 }
-.quote-text::before { content: '\201C'; color: var(--amber); }
-.quote-text::after { content: '\201D'; color: var(--amber); }
-.quote-attr {
-  font-family: var(--font-mono); font-size: 0.76rem; letter-spacing: 0.18em;
-  text-transform: uppercase; color: var(--taupe);
+.quote-meta-name {
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--cream);
 }
-.quote-attr b { color: var(--amber-light); font-weight: 500; }
-.quote-divider {
-  width: 48px; height: 1px;
-  background: linear-gradient(90deg, transparent, var(--amber), transparent);
-  margin: 1.4rem auto;
+.quote-meta-role {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  color: var(--amber-light);
+  text-transform: uppercase;
+}
+.quote-stars-small {
+  color: var(--amber);
+  font-size: 0.85rem;
+  margin-bottom: 0.8rem;
+  display: flex;
+  gap: 0.2rem;
 }
 
 /* ============ VISIT ============ */
@@ -819,6 +1071,7 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
   display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 4.5rem;
   align-items: center;
   overflow: hidden;
+  border-top: 1px solid var(--line);
 }
 .visit-sign {
   justify-self: center; text-align: center;
@@ -1010,7 +1263,7 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
   padding: 0.6rem 1.2rem; border-radius: 999px; cursor: pointer;
   transition: background 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
 }
-.footer-news button:hover { background: var(--amber); color: #150E07; box-shadow: 0 0 18px var(--amber-glow); }
+.footer-news button:hover { background: var(--amber); color: #120C06; box-shadow: 0 0 18px var(--amber-glow); }
 .footer-bottom {
   display: flex; justify-content: space-between; align-items: center;
   flex-wrap: wrap; gap: 1rem;
@@ -1038,7 +1291,7 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
   display: none;
   position: fixed; top: 0; left: 0; right: 0; bottom: 0;
   z-index: 490;
-  background: rgba(12,10,8,0.98);
+  background: rgba(11,9,7,0.98);
   backdrop-filter: blur(20px);
   flex-direction: column;
   align-items: center; justify-content: center;
@@ -1061,8 +1314,12 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
   .nav-cta { display: none; }
   .nav-toggle { display: block; }
   .ritual-steps { grid-template-columns: 1fr; gap: 2rem; }
+  .craft-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+  .craft-img-card.main-card { height: 300px; }
+  .craft-img-card.sub-card { height: 260px; margin-top: 1.5rem; }
   .ticket-rail { grid-template-columns: repeat(2, 1fr); }
   .origin-grid { grid-template-columns: 1fr; gap: 1.4rem; }
+  .quotes-grid { grid-template-columns: 1fr; }
   .visit-section { grid-template-columns: 1fr; }
   .visit-sign { padding: 2.8rem; }
   .highlights-inner { grid-template-columns: 1fr; }
@@ -1073,8 +1330,10 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
 }
 @media (max-width: 620px) {
   .ticket-rail { grid-template-columns: 1fr; }
+  .craft-images { grid-template-columns: 1fr; }
+  .craft-img-card.sub-card { margin-top: 0; }
+  .craft-specs { grid-template-columns: 1fr; }
   .hero { padding-top: 7.5rem; }
-  .quote-section::before { font-size: 13rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1117,9 +1376,11 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
     <span class="logo-name">Cafe <em>Brewm</em></span>
   </a>
   <div class="nav-links" role="list">
+    <a href="#craft" role="listitem">The Craft</a>
     <a href="#ritual" role="listitem">Brew</a>
     <a href="#menu" role="listitem">Menu</a>
     <a href="#origins" role="listitem">Origins</a>
+    <a href="#quotes" role="listitem">Quotes</a>
     <a href="#visit" role="listitem">Visit</a>
   </div>
   <a href="#visit" class="nav-cta">Find us →</a>
@@ -1132,9 +1393,11 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
 
 <!-- MOBILE NAV -->
 <div class="mobile-nav" id="mobileNav" aria-hidden="true">
+  <a href="#craft" onclick="closeMobileNav()">The Craft</a>
   <a href="#ritual" onclick="closeMobileNav()">Brew</a>
   <a href="#menu" onclick="closeMobileNav()">Menu</a>
   <a href="#origins" onclick="closeMobileNav()">Origins</a>
+  <a href="#quotes" onclick="closeMobileNav()">Quotes</a>
   <a href="#visit" onclick="closeMobileNav()">Visit</a>
   <a href="#signup" onclick="closeMobileNav()" class="btn btn-primary" style="margin-top:1rem;">First pour free →</a>
 </div>
@@ -1154,7 +1417,7 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
       <span class="reveal-line"><span>for the <em>open</em></span></span>
       <span class="reveal-line"><span>road.</span></span>
     </h1>
-    <p class="hero-sub">A coffee stop for riders and road-trippers &mdash; pulled fast, poured strong, and sized to hold with one hand on the throttle.</p>
+    <p class="hero-sub">A coffee stop for riders, night-trippers, and espresso purists &mdash; pulled fast, poured strong, and sized to hold with one hand on the throttle.</p>
     <div class="hero-actions">
       <a href="#menu" class="btn btn-primary" id="heroMenuBtn">See the menu ↓</a>
       <a href="#visit" class="btn btn-ghost" id="heroVisitBtn">6AM &ndash; 11PM →</a>
@@ -1214,6 +1477,59 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
   </div>
 </section>
 
+<!-- PHILOSOPHY QUOTE BANNER -->
+<section class="road-quote-banner reveal" aria-label="Philosophy quote">
+  <div class="road-quote-inner">
+    <p class="road-quote-text">&ldquo;Life begins after coffee, but the journey truly begins when the engine starts.&rdquo;</p>
+    <p class="road-quote-sub">The Rider&rsquo;s Creed &mdash; Cafe Brewm Sanctuary</p>
+  </div>
+</section>
+
+<!-- THE CRAFT / SCIENCE OF EXTRACTION (NEW SECTION) -->
+<section class="craft-section" id="craft" aria-labelledby="craftTitle">
+  <div class="craft-grid">
+    <div class="craft-images reveal">
+      <div class="craft-img-card main-card">
+        <img src="image/espresso_shot.jpg" alt="Double espresso pull with rich golden crema" loading="lazy">
+        <span class="craft-badge-floating">9 BAR PRESSURE · 25 SECONDS</span>
+      </div>
+      <div class="craft-img-card sub-card">
+        <img src="image/coffee_craft.jpg" alt="Barista pouring artisanal V60 filter coffee" loading="lazy">
+        <span class="craft-badge-floating">ARTISANAL BLOOM</span>
+      </div>
+    </div>
+    <div class="craft-content reveal reveal-delay-1">
+      <p class="section-eyebrow">The Extraction Craft</p>
+      <h2 class="section-title" id="craftTitle">Calibrated like a race engine.</h2>
+      <p style="color: var(--cream-dim); margin: 1.4rem 0 1.8rem; line-height: 1.7; font-size: 1.05rem;">
+        Every cup at Cafe Brewm is treated with surgical precision. We measure dose down to 0.1 grams, align water temperature to 93.5&deg;C, and pull with constant nine bars of mechanical pressure. No bitterness, no stalling &mdash; just raw, unadulterated espresso brilliance.
+      </p>
+      <div class="craft-specs">
+        <div class="craft-spec-item">
+          <div class="craft-spec-title">Extraction Ratio</div>
+          <div class="craft-spec-val">1 : 2.0</div>
+          <div class="craft-spec-desc">18.5g in, 37g liquid out</div>
+        </div>
+        <div class="craft-spec-item">
+          <div class="craft-spec-title">Brew Temp</div>
+          <div class="craft-spec-val">93.5&deg;C</div>
+          <div class="craft-spec-desc">PID stability &plusmn;0.2&deg;C</div>
+        </div>
+        <div class="craft-spec-item">
+          <div class="craft-spec-title">Grind Consistency</div>
+          <div class="craft-spec-val">83mm Burrs</div>
+          <div class="craft-spec-desc">Micron-level uniformity</div>
+        </div>
+        <div class="craft-spec-item">
+          <div class="craft-spec-title">Water Chemistry</div>
+          <div class="craft-spec-val">120 TDS</div>
+          <div class="craft-spec-desc">Triple filtered for clarity</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- RITUAL -->
 <section class="ritual" id="ritual" aria-labelledby="ritualTitle">
   <div class="ritual-wrap">
@@ -1247,66 +1563,106 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
 <!-- MENU -->
 <section class="menu-section" id="menu" aria-labelledby="menuTitle">
   <div class="section-head reveal menu-head">
-    <div class="brew-cup" aria-hidden="true">
-      <div class="brew-steam"><span></span><span></span><span></span></div>
-      <div class="brew-mug"><div class="brew-fill"></div></div>
-    </div>
-    <div>
-      <p class="section-eyebrow">The Menu</p>
-      <h2 class="section-title" id="menuTitle">Pulled fast. Poured strong.<br>Built to go.</h2>
+    <div class="menu-head-left">
+      <div class="brew-cup" aria-hidden="true">
+        <div class="brew-steam"><span></span><span></span><span></span></div>
+        <div class="brew-mug"><div class="brew-fill"></div></div>
+      </div>
+      <div>
+        <p class="section-eyebrow">The Menu</p>
+        <h2 class="section-title" id="menuTitle">Pulled fast. Poured strong.<br>Built to go.</h2>
+      </div>
     </div>
   </div>
+
+  <!-- Interactive Category Filters -->
+  <div class="menu-filters reveal">
+    <button class="filter-btn active" data-filter="all">All Coffees</button>
+    <button class="filter-btn" data-filter="espresso">Espresso Bar</button>
+    <button class="filter-btn" data-filter="cold">Cold &amp; Nitro</button>
+    <button class="filter-btn" data-filter="signature">Signatures</button>
+  </div>
+
   <div class="ticket-rail" id="ticketRail">
-    <div class="ticket" style="--i:0">
+    <div class="ticket" data-category="espresso" style="--i:0">
       <span class="ticket-badge"><span class="dot"></span> Most ordered</span>
       <div class="ticket-top"><span>Stop 01</span><span>All day</span></div>
       <h3 class="ticket-name">Redline Espresso</h3>
-      <p class="ticket-desc">Double shot, pulled hot and fast. No cream, no delay.</p>
+      <p class="ticket-desc">Double shot, pulled hot and fast. Concentrated crema, no delay.</p>
+      <div class="ticket-flavor-notes">
+        <span class="flavor-pill">Dark Cacao</span>
+        <span class="flavor-pill">Roasted Almond</span>
+      </div>
       <div class="ticket-bottom">
         <span class="ticket-tag">PREMIUM</span>
         <span class="ticket-price">$4<span class="arrow" aria-hidden="true">→</span></span>
       </div>
     </div>
-    <div class="ticket" style="--i:1">
+
+    <div class="ticket" data-category="espresso" style="--i:1">
       <div class="ticket-top"><span>Stop 02</span><span>All day</span></div>
       <h3 class="ticket-name">Highway Cortado</h3>
-      <p class="ticket-desc">Equal parts espresso and steamed milk, smoothed out for the long haul.</p>
+      <p class="ticket-desc">Equal parts espresso and textured micro-foam, balanced for long journeys.</p>
+      <div class="ticket-flavor-notes">
+        <span class="flavor-pill">Velvety</span>
+        <span class="flavor-pill">Sweet Caramel</span>
+      </div>
       <div class="ticket-bottom">
         <span class="ticket-tag">REGULAR</span>
         <span class="ticket-price">$5<span class="arrow" aria-hidden="true">→</span></span>
       </div>
     </div>
-    <div class="ticket" style="--i:2">
+
+    <div class="ticket" data-category="cold" style="--i:2">
       <div class="ticket-top"><span>Stop 03</span><span>All day</span></div>
       <h3 class="ticket-name">Midnight Mile Nitro</h3>
-      <p class="ticket-desc">Cold brew on nitro, cascading like a stout. Built for a late ride home.</p>
+      <p class="ticket-desc">Cold brew steeped for 20 hours on nitro draft, cascading like a dry stout.</p>
+      <div class="ticket-flavor-notes">
+        <span class="flavor-pill">Creamy Head</span>
+        <span class="flavor-pill">Stonefruit</span>
+      </div>
       <div class="ticket-bottom">
         <span class="ticket-tag">SUPER</span>
         <span class="ticket-price">$6<span class="arrow" aria-hidden="true">→</span></span>
       </div>
     </div>
-    <div class="ticket" style="--i:3">
+
+    <div class="ticket" data-category="signature" style="--i:3">
       <div class="ticket-top"><span>Stop 04</span><span>All day</span></div>
       <h3 class="ticket-name">The Detour</h3>
-      <p class="ticket-desc">Espresso, orange oil, demerara, a whisper of smoke. Worth the extra miles.</p>
+      <p class="ticket-desc">Double espresso, charred orange peel oil, demerara, whisper of smoked oak.</p>
+      <div class="ticket-flavor-notes">
+        <span class="flavor-pill">Citrus Zest</span>
+        <span class="flavor-pill">Smoky Oak</span>
+      </div>
       <div class="ticket-bottom">
         <span class="ticket-tag">SIGNATURE</span>
         <span class="ticket-price">$8<span class="arrow" aria-hidden="true">→</span></span>
       </div>
     </div>
-    <div class="ticket" style="--i:4">
+
+    <div class="ticket" data-category="signature" style="--i:4">
       <div class="ticket-top"><span>Stop 05</span><span>All day</span></div>
       <h3 class="ticket-name">Full Tank Affogato</h3>
-      <p class="ticket-desc">A scoop of vanilla gelato, drowned to order in hot espresso.</p>
+      <p class="ticket-desc">Scoop of Madagascar vanilla bean gelato, drowned to order in scalding espresso.</p>
+      <div class="ticket-flavor-notes">
+        <span class="flavor-pill">Vanilla Bean</span>
+        <span class="flavor-pill">Contrast</span>
+      </div>
       <div class="ticket-bottom">
         <span class="ticket-tag">SWEET</span>
         <span class="ticket-price">$6<span class="arrow" aria-hidden="true">→</span></span>
       </div>
     </div>
-    <div class="ticket" style="--i:5">
+
+    <div class="ticket" data-category="signature" style="--i:5">
       <div class="ticket-top"><span>Stop 06</span><span>All day</span></div>
       <h3 class="ticket-name">The Brewm</h3>
-      <p class="ticket-desc">Brown butter, sea salt, double ristretto. Our name, our order.</p>
+      <p class="ticket-desc">Browned butter emulsion, flaked Maldon sea salt, dense double ristretto.</p>
+      <div class="ticket-flavor-notes">
+        <span class="flavor-pill">Sea Salt</span>
+        <span class="flavor-pill">Brown Butter</span>
+      </div>
       <div class="ticket-bottom">
         <span class="ticket-tag">SIGNATURE</span>
         <span class="ticket-price">$7<span class="arrow" aria-hidden="true">→</span></span>
@@ -1318,7 +1674,7 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
 <!-- ORIGINS -->
 <section class="origins-section" id="origins" aria-labelledby="originsTitle">
   <div class="section-head reveal">
-    <p class="section-eyebrow">Origins</p>
+    <p class="section-eyebrow">Origins &amp; Roasts</p>
     <h2 class="section-title" id="originsTitle">Single-origin,<br>roasted for the road.</h2>
   </div>
   <div class="origin-grid">
@@ -1327,55 +1683,111 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
       <span class="origin-region">ETHIOPIA</span>
       <h3>Yirgacheffe</h3>
       <dl class="spec-sheet">
-        <div><dt>ALT</dt><dd>1,900m</dd></div>
+        <div><dt>ALTITUDE</dt><dd>1,900m</dd></div>
         <div><dt>PROCESS</dt><dd>Washed</dd></div>
         <div><dt>NOTES</dt><dd>Bergamot, jasmine, stone fruit</dd></div>
       </dl>
+      <div class="roast-level-meter">
+        <div class="roast-meter-header"><span>Roast Profile</span><span class="roast-meter-val">Light Roast</span></div>
+        <div class="roast-meter-bar"><div class="roast-meter-fill" style="--roast:40%"></div></div>
+      </div>
       <div class="taste-bar">
         <p class="taste-label">Brightness</p>
         <div class="taste-track"><div class="taste-fill" style="--fill:88%"></div></div>
       </div>
     </div>
+
     <div class="origin-card reveal reveal-delay-1">
       <span class="origin-flag" aria-hidden="true">🇨🇴</span>
       <span class="origin-region">COLOMBIA</span>
       <h3>Huila</h3>
       <dl class="spec-sheet">
-        <div><dt>ALT</dt><dd>1,700m</dd></div>
+        <div><dt>ALTITUDE</dt><dd>1,700m</dd></div>
         <div><dt>PROCESS</dt><dd>Honey</dd></div>
         <div><dt>NOTES</dt><dd>Caramel, red apple, brown sugar</dd></div>
       </dl>
+      <div class="roast-level-meter">
+        <div class="roast-meter-header"><span>Roast Profile</span><span class="roast-meter-val">Medium Roast</span></div>
+        <div class="roast-meter-bar"><div class="roast-meter-fill" style="--roast:65%"></div></div>
+      </div>
       <div class="taste-bar">
         <p class="taste-label">Sweetness</p>
         <div class="taste-track"><div class="taste-fill" style="--fill:76%"></div></div>
       </div>
     </div>
+
     <div class="origin-card reveal reveal-delay-2">
       <span class="origin-flag" aria-hidden="true">🇮🇩</span>
       <span class="origin-region">SUMATRA</span>
       <h3>Mandheling</h3>
       <dl class="spec-sheet">
-        <div><dt>ALT</dt><dd>1,400m</dd></div>
+        <div><dt>ALTITUDE</dt><dd>1,400m</dd></div>
         <div><dt>PROCESS</dt><dd>Wet-hulled</dd></div>
         <div><dt>NOTES</dt><dd>Cedar, dark chocolate, earth</dd></div>
       </dl>
+      <div class="roast-level-meter">
+        <div class="roast-meter-header"><span>Roast Profile</span><span class="roast-meter-val">Dark Roast</span></div>
+        <div class="roast-meter-bar"><div class="roast-meter-fill" style="--roast:90%"></div></div>
+      </div>
       <div class="taste-bar">
         <p class="taste-label">Body</p>
-        <div class="taste-track"><div class="taste-fill" style="--fill:92%"></div></div>
+        <div class="taste-track"><div class="taste-fill" style="--fill:94%"></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- TESTIMONIAL -->
-<section class="quote-section" aria-label="What riders say">
-  <div class="quote-wrap reveal">
-    <div class="quote-stars" aria-label="5 stars">
-      <span aria-hidden="true">★</span><span aria-hidden="true">★</span><span aria-hidden="true">★</span><span aria-hidden="true">★</span><span aria-hidden="true">★</span>
+<!-- QUOTES / TESTIMONIALS (EXPANDED GRID) -->
+<section class="quotes-section" id="quotes" aria-labelledby="quotesTitle">
+  <div class="section-head reveal" style="text-align: center; max-width: 600px; margin: 0 auto 3.5rem;">
+    <p class="section-eyebrow" style="justify-content: center;">Words from the Road</p>
+    <h2 class="section-title" id="quotesTitle" style="margin: 0 auto;">Praise from riders and coffee purists.</h2>
+  </div>
+  <div class="quotes-grid">
+    <div class="quote-card reveal">
+      <div>
+        <div class="quote-stars-small">★★★★★</div>
+        <div class="quote-card-mark">&ldquo;</div>
+        <p class="quote-card-text">Best espresso this side of the mountain pass. I roll in before sunrise at 6:15AM, and it&rsquo;s already pulled, dialed in, and sealed tight for the ride.</p>
+      </div>
+      <div class="quote-card-author">
+        <div class="quote-avatar">🏍️</div>
+        <div>
+          <div class="quote-meta-name">Mara K.</div>
+          <div class="quote-meta-role">Daily Commuter &amp; Cafe Racer</div>
+        </div>
+      </div>
     </div>
-    <p class="quote-text">Best espresso this side of the pass. I roll in before sunrise, and it&rsquo;s already pulled, lid on, ready for the throttle.</p>
-    <div class="quote-divider"></div>
-    <p class="quote-attr"><b>Mara K.</b> &mdash; Daily Commuter</p>
+
+    <div class="quote-card reveal reveal-delay-1">
+      <div>
+        <div class="quote-stars-small">★★★★★</div>
+        <div class="quote-card-mark">&ldquo;</div>
+        <p class="quote-card-text">As an engine builder and coffee obsessive, their pull consistency is uncanny. Exactly 25 seconds, nine bars &mdash; it runs as smooth as a four-cylinder motor.</p>
+      </div>
+      <div class="quote-card-author">
+        <div class="quote-avatar">⚙️</div>
+        <div>
+          <div class="quote-meta-name">David R.</div>
+          <div class="quote-meta-role">Custom Builder &amp; Long Hauler</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-card reveal reveal-delay-2">
+      <div>
+        <div class="quote-stars-small">★★★★★</div>
+        <div class="quote-card-mark">&ldquo;</div>
+        <p class="quote-card-text">The Detour drink is pure genius. Smoked demerara with citrus zest paired with single-origin beans. I travel 30 miles out of my route just to stop here.</p>
+      </div>
+      <div class="quote-card-author">
+        <div class="quote-avatar">☕</div>
+        <div>
+          <div class="quote-meta-name">Julian V.</div>
+          <div class="quote-meta-role">Specialty Q-Grader</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1441,9 +1853,11 @@ section { padding: var(--section-pad) var(--edge-pad); position: relative; }
     <div class="footer-col">
       <p class="footer-col-title">Navigate</p>
       <nav class="footer-links" aria-label="Footer navigation">
+        <a href="#craft">The Craft</a>
         <a href="#ritual">The Brew</a>
         <a href="#menu">Menu</a>
         <a href="#origins">Origins</a>
+        <a href="#quotes">Quotes</a>
         <a href="#visit">Visit Us</a>
       </nav>
     </div>
@@ -1485,7 +1899,6 @@ const onScroll = () => {
   const p = max > 0 ? window.scrollY / max : 0;
   progress.style.transform = 'scaleX(' + p + ')';
   nav.classList.toggle('scrolled', window.scrollY > 50);
-  // Parallax hero bg
   if (heroBg && window.scrollY < window.innerHeight) {
     const offset = window.scrollY * 0.22;
     heroBg.style.transform = `scale(1.06) translateY(${offset}px)`;
@@ -1581,6 +1994,30 @@ if (!reduceMotion) {
   });
 }
 
+/* ============ MENU CATEGORY FILTER ============ */
+const filterBtns = document.querySelectorAll('.filter-btn');
+const tickets = document.querySelectorAll('.ticket');
+
+filterBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    filterBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const targetCategory = btn.getAttribute('data-filter');
+
+    tickets.forEach(ticket => {
+      const category = ticket.getAttribute('data-category');
+      if (targetCategory === 'all' || category === targetCategory) {
+        ticket.classList.remove('hidden');
+        ticket.style.display = 'block';
+        setTimeout(() => { ticket.classList.add('is-visible'); }, 50);
+      } else {
+        ticket.classList.remove('is-visible');
+        ticket.classList.add('hidden');
+      }
+    });
+  });
+});
+
 /* ============ COUNTER ANIMATION ============ */
 function animateCounter(el, target, duration = 1600) {
   const start = performance.now();
@@ -1595,12 +2032,11 @@ function animateCounter(el, target, duration = 1600) {
 }
 
 /* ============ SCROLL REVEALS + OBSERVERS ============ */
-const revealEls = document.querySelectorAll('.reveal, .ticket, .origin-card');
+const revealEls = document.querySelectorAll('.reveal, .ticket, .origin-card, .quote-card, .craft-img-card');
 const io = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('is-visible');
-      // Counter animation
       const counter = entry.target.querySelector('.counter');
       if (counter && !counter.dataset.counted) {
         counter.dataset.counted = '1';
@@ -1636,7 +2072,7 @@ if (signupForm) {
     if (signupBtn) signupBtn.disabled = true;
     mugLoader.classList.remove('filling');
     mugLoader.classList.add('active');
-    mugLoader.offsetHeight; // force reflow
+    mugLoader.offsetHeight;
     mugLoader.classList.add('filling');
     try {
       const [res] = await Promise.all([
